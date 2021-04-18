@@ -1,0 +1,36 @@
+<% layout('layout/boilerplate') %>
+        <div class="row">
+            <h1 class="text-center">Edit Campground</h1>
+                <div class="col-6 offset-3">
+                    <form action="/campgrounds/<%= campgroundid._id %>?_method=PUT" method="POST" novalidate class="validationforms">
+                        <div class="mb-4">
+                            <label class="form-label" for="title">Title</label>
+                            <input class="form-control" type="text" id="title" name="campground[title]" value="<%= campgroundid.title %>" required>
+                        </div>
+                        <div class="mb-4">
+                            <label class="form-label" for="location">Location</label>
+                            <input  class="form-control" type="text" id="location" name="campground[location]" value="<%= campgroundid.location %>" required>
+                        </div>
+                        <div class="mb-4">
+                            <label class="form-label" for="addurl">Add Image</label>
+                            <input class="form-control" type="text" id="addurl" name="campground[image]" required>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label" for="price">Campground Price</label>
+                            <div class="input-group mb-3">
+                                <span class="input-group-text">$</span>
+                                <input type="text" class="form-control" name="campground[price]" value=" <%= campgroundid.price %>" aria-label="price" required>
+                                <span class="input-group-text">0.00</span>
+                            </div>
+                        </div>
+                        <div class="mb-4">
+                            <label class="form-label" for="description">Description</label>
+                            <textarea type="text" id="description" name="campground[description]" required><%= campgroundid.description %></textarea>
+                        </div>
+                        <div class="mb-3 d-inline"> 
+                            <button class="btn btn-info d-inline">Update Campground</button>
+                        </div>
+                    </form>
+                    <a href="/campgrounds" class="btn btn-info gap-3 ">Back To Campgrounds</a>
+                </div>
+        </div>
