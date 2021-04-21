@@ -6,6 +6,7 @@ const catchasync = require('../Utils/catchasync');
 const Review = require('../models/review')
 const expresserror = require('../Utils/ExpressError');
 
+
 const validateReview = (req,res,next)=>{
     const {error} = reviewSchema.validate(req.body)
     if(error){
@@ -17,14 +18,21 @@ const validateReview = (req,res,next)=>{
 }
 
 router.post('/',validateReview ,catchasync(async(req,res)=>{
-    console.log(req.body);
-    console.log(req.params)
     const campGround = await campground.findById(req.params.id);
     const review = new Review(req.body.review);
     campGround.reviews.push(review);
     await review.save();
     await campGround.save();
+    req.flash('success','Successfully created a new campground');
     res.redirect(`/campgrounds/${campGround._id}`);
+}));
+
+router.delete('/:reviewid',catchasync(async(req,res)=>{
+    const {id,reviewid} = req.params;
+    await campground.findByIdAndUpdate(id,{$pull:{reviews: reviewid}});
+    await Review.findByIdAndDelete(req.params.reviewid);
+    req.flash('success','successfully deleted a new campground');
+    res.redirect(`/campgrounds/${id}`);
 }));
 
 module.exports = router;
